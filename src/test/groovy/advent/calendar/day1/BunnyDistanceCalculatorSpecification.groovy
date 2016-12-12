@@ -11,10 +11,8 @@ public class BunnyDistanceCalculatorSpecification extends Specification {
 
     @Unroll
     def "Should calculate distance for #steps"() {
-        given:
-            def subject = new BunnyDistanceCalculator(steps)
         when:
-            def calculatedDistance = subject.calculateBunnyDistance()
+            def calculatedDistance = subject.calculateBunnyDistance(steps)
         then:
             calculatedDistance == expectedDistance
         where:
@@ -24,5 +22,8 @@ public class BunnyDistanceCalculatorSpecification extends Specification {
             ['R2', 'R2', 'R2', 'R2'] || 0
             ['L2', 'L2', 'L2', 'L2'] || 0
             ['R5', 'L5', 'R5', 'R3'] || 12
+            ['R2', 'R1', 'R1', 'R2'] || 1
+            ['R8', 'R4', 'R4', 'R100'] || 4
+            ['L2', 'L1', 'L1', 'L100'] || 1
     }
 }
