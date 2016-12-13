@@ -1,8 +1,11 @@
 package advent.calendar.day2;
+import lombok.Data;
+import lombok.NonNull;
+
 import java.util.Optional;
 
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
+import advent.calendar.day2.KeypadTraversal.Direction;
+
 interface KeypadState {
 
     static final KeypadState K1 = new Key1Pressed();
@@ -15,88 +18,183 @@ interface KeypadState {
     static final KeypadState K8 = new Key8Pressed();
     static final KeypadState K9 = new Key9Pressed();
 
-    static enum Direction {
-        U, D, L, R
-    }
-
     Optional<KeypadState> goTo(Direction direction);
-    int toDigit();
 
-    public static class Key1Pressed implements KeypadState {
+    static class Key1Pressed extends Key implements KeypadState {
 
-        @Override
-        public Optional<KeypadState> goTo(Direction direction) {
-            switch (direction) {
-                case R: return of(K1);
-                case D: return of(K4);
-                default: return empty();
-            }
+        public Key1Pressed() {
+            super("1");
         }
 
         @Override
-        public int toDigit() {return 1;}
+        public Optional<KeypadState> goTo(Direction direction) {
+            KeypadState state = null;
+            switch (direction) {
+                case R: state = K2; break;
+                case D: state = K4; break;
+            }
+            return Optional.ofNullable(state);
+        }
 
     }
 
-    public static class Key2Pressed implements KeypadState {
+    static class Key2Pressed extends Key implements KeypadState {
 
-        @Override
-        public Optional<KeypadState> goTo(Direction direction) {
-            switch (direction) {
-                case R: return of(K3);
-                case L: return of(K1);
-                case D: return of(K5);
-                default: return empty();
-            }
+        public Key2Pressed() {
+            super("2");
         }
 
         @Override
-        public int toDigit() {return 2;}
+        public Optional<KeypadState> goTo(Direction direction) {
+            KeypadState state = null;
+            switch (direction) {
+                case R: state = K3; break;
+                case L: state = K1; break;
+                case D: state = K5; break;
+            }
+            return Optional.ofNullable(state);
+        }
+
     }
 
-    public static class Key3Pressed implements KeypadState {
+    static class Key3Pressed extends Key implements KeypadState {
 
-        @Override
-        public Optional<KeypadState> goTo(Direction direction) {
-            switch (direction) {
-                case L: return of(K2);
-                case D: return of(K6);
-                default: return empty();
-            }
+        public Key3Pressed() {
+            super("3");
         }
 
         @Override
-        public int toDigit() {return 3;}
+        public Optional<KeypadState> goTo(Direction direction) {
+            KeypadState state = null;
+            switch (direction) {
+                case L: state = K2; break;
+                case D: state = K6; break;
+            }
+            return Optional.ofNullable(state);
+        }
 
     }
 
-    public static class Key4Pressed implements KeypadState {
+    static class Key4Pressed extends Key implements KeypadState {
 
-        @Override
-        public Optional<KeypadState> goTo(Direction direction) {
-            switch (direction) {
-                case R: return of(K5);
-                case D: return of(K7);
-                case U: return of(K1);
-                default: return empty();
-            }
+        public Key4Pressed() {
+            super("4");
         }
 
         @Override
-        public int toDigit() {return 4;}
+        public Optional<KeypadState> goTo(Direction direction) {
+            KeypadState state = null;
+            switch (direction) {
+                case R: state = K5; break;
+                case D: state = K7; break;
+                case U: state = K1; break;
+            }
+            return Optional.ofNullable(state);
+        }
+
     }
 
-    public static class Key5Pressed implements KeypadState {
+    static class Key5Pressed extends Key implements KeypadState {
+
+        public Key5Pressed() {
+            super("5");
+        }
+
         @Override
         public Optional<KeypadState> goTo(Direction direction) {
+            KeypadState state = null;
             switch (direction) {
-                case R: return of(K6);
-                case L: return of(K4);
-                case D: return of(K8);
-                case U: return of(K2);
-                default: return empty();
+                case R: state = K6; break;
+                case L: state = K4; break;
+                case D: state = K8; break;
+                case U: state = K2; break;
             }
+            return Optional.ofNullable(state);
         }
+
     }
 
+    static class Key6Pressed extends Key implements KeypadState {
+
+        public Key6Pressed() {
+            super("6");
+        }
+
+        @Override
+        public Optional<KeypadState> goTo(Direction direction) {
+            KeypadState state = null;
+            switch (direction) {
+                case L: state = K5; break;
+                case D: state = K9; break;
+                case U: state = K3; break;
+            }
+            return Optional.ofNullable(state);
+        }
+
+    }
+
+    static class Key7Pressed extends Key implements KeypadState {
+
+        public Key7Pressed() {
+            super("7");
+        }
+
+        @Override
+        public Optional<KeypadState> goTo(Direction direction) {
+            KeypadState state = null;
+            switch (direction) {
+                case R: state = K8; break;
+                case U: state = K3; break;
+            }
+            return Optional.ofNullable(state);
+        }
+
+    }
+
+    static class Key8Pressed extends Key implements KeypadState {
+
+        public Key8Pressed() {
+            super("8");
+        }
+
+        @Override
+        public Optional<KeypadState> goTo(Direction direction) {
+            KeypadState state = null;
+            switch (direction) {
+                case R: state = K9; break;
+                case L: state = K7; break;
+                case U: state = K5; break;
+            }
+            return Optional.ofNullable(state);
+        }
+
+    }
+
+    static class Key9Pressed extends Key implements KeypadState {
+
+        public Key9Pressed() {
+            super("9");
+        }
+
+        @Override
+        public Optional<KeypadState> goTo(Direction direction) {
+            KeypadState state = null;
+            switch (direction) {
+                case L: state = K8; break;
+                case U: state = K6; break;
+            }
+            return Optional.ofNullable(state);
+        }
+
+    }
+
+    @Data
+    static abstract class Key {
+        final @NonNull String key;
+
+        @Override
+        public String toString() {
+            return key;
+        }
+    }
 }
