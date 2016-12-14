@@ -9,10 +9,8 @@ public class TriangleDetectorSpecification extends Specification {
 
     @Unroll
     def "Should return #expectedOutput for #input"() {
-        given:
-            def triangleDetector = new TriangleDetector()
         when:
-            def isTriangle = triangleDetector.isTriangle(input)
+            def isTriangle = TriangleDetector.isTriangle(input)
         then:
             isTriangle == expectedOutput
         where:
