@@ -17,6 +17,10 @@ interface KeypadState {
     static final KeypadState K7 = new Key7Pressed();
     static final KeypadState K8 = new Key8Pressed();
     static final KeypadState K9 = new Key9Pressed();
+    static final KeypadState KA = new KeyAPressed();
+    static final KeypadState KB = new KeyBPressed();
+    static final KeypadState KC = new KeyCPressed();
+    static final KeypadState KD = new KeyDPressed();
 
     Optional<KeypadState> goTo(Direction direction);
 
@@ -30,8 +34,7 @@ interface KeypadState {
         public Optional<KeypadState> goTo(Direction direction) {
             KeypadState state = null;
             switch (direction) {
-                case R: state = K2; break;
-                case D: state = K4; break;
+                case D: state = K3; break;
             }
             return Optional.ofNullable(state);
         }
@@ -49,8 +52,7 @@ interface KeypadState {
             KeypadState state = null;
             switch (direction) {
                 case R: state = K3; break;
-                case L: state = K1; break;
-                case D: state = K5; break;
+                case D: state = K6; break;
             }
             return Optional.ofNullable(state);
         }
@@ -67,8 +69,10 @@ interface KeypadState {
         public Optional<KeypadState> goTo(Direction direction) {
             KeypadState state = null;
             switch (direction) {
+                case R: state = K4; break;
                 case L: state = K2; break;
-                case D: state = K6; break;
+                case U: state = K1; break;
+                case D: state = K7; break;
             }
             return Optional.ofNullable(state);
         }
@@ -85,9 +89,8 @@ interface KeypadState {
         public Optional<KeypadState> goTo(Direction direction) {
             KeypadState state = null;
             switch (direction) {
-                case R: state = K5; break;
-                case D: state = K7; break;
-                case U: state = K1; break;
+                case L: state = K3; break;
+                case D: state = K8; break;
             }
             return Optional.ofNullable(state);
         }
@@ -105,9 +108,6 @@ interface KeypadState {
             KeypadState state = null;
             switch (direction) {
                 case R: state = K6; break;
-                case L: state = K4; break;
-                case D: state = K8; break;
-                case U: state = K2; break;
             }
             return Optional.ofNullable(state);
         }
@@ -124,9 +124,10 @@ interface KeypadState {
         public Optional<KeypadState> goTo(Direction direction) {
             KeypadState state = null;
             switch (direction) {
+                case R: state = K7; break;
                 case L: state = K5; break;
-                case D: state = K9; break;
-                case U: state = K3; break;
+                case D: state = KA; break;
+                case U: state = K2; break;
             }
             return Optional.ofNullable(state);
         }
@@ -144,6 +145,8 @@ interface KeypadState {
             KeypadState state = null;
             switch (direction) {
                 case R: state = K8; break;
+                case L: state = K6; break;
+                case D: state = KB; break;
                 case U: state = K3; break;
             }
             return Optional.ofNullable(state);
@@ -163,7 +166,8 @@ interface KeypadState {
             switch (direction) {
                 case R: state = K9; break;
                 case L: state = K7; break;
-                case U: state = K5; break;
+                case D: state = KC; break;
+                case U: state = K4; break;
             }
             return Optional.ofNullable(state);
         }
@@ -181,7 +185,79 @@ interface KeypadState {
             KeypadState state = null;
             switch (direction) {
                 case L: state = K8; break;
+            }
+            return Optional.ofNullable(state);
+        }
+
+    }
+
+    static class KeyAPressed extends Key implements KeypadState {
+
+        public KeyAPressed() {
+            super("A");
+        }
+
+        @Override
+        public Optional<KeypadState> goTo(Direction direction) {
+            KeypadState state = null;
+            switch (direction) {
+                case R: state = KB; break;
                 case U: state = K6; break;
+            }
+            return Optional.ofNullable(state);
+        }
+
+    }
+
+    static class KeyBPressed extends Key implements KeypadState {
+
+        public KeyBPressed() {
+            super("B");
+        }
+
+        @Override
+        public Optional<KeypadState> goTo(Direction direction) {
+            KeypadState state = null;
+            switch (direction) {
+                case R: state = KC; break;
+                case L: state = KA; break;
+                case U: state = K7; break;
+                case D: state = KD; break;
+            }
+            return Optional.ofNullable(state);
+        }
+
+    }
+
+    static class KeyCPressed extends Key implements KeypadState {
+
+        public KeyCPressed() {
+            super("C");
+        }
+
+        @Override
+        public Optional<KeypadState> goTo(Direction direction) {
+            KeypadState state = null;
+            switch (direction) {
+                case L: state = KB; break;
+                case U: state = K8; break;
+            }
+            return Optional.ofNullable(state);
+        }
+
+    }
+
+    static class KeyDPressed extends Key implements KeypadState {
+
+        public KeyDPressed() {
+            super("D");
+        }
+
+        @Override
+        public Optional<KeypadState> goTo(Direction direction) {
+            KeypadState state = null;
+            switch (direction) {
+                case U: state = KB; break;
             }
             return Optional.ofNullable(state);
         }

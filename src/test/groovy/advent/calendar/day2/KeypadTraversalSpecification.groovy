@@ -20,38 +20,38 @@ public class KeypadTraversalSpecification extends Specification {
         where:
             initialState | direction   || expectedKey | expectedValue
             K1           | Direction.U || null        | null
-            K1           | Direction.D || K4          | '4'
-            K1           | Direction.R || K2          | '2'
+            K1           | Direction.D || K3          | '3'
+            K1           | Direction.R || null        | null
             K1           | Direction.L || null        | null
             K2           | Direction.U || null        | null
-            K2           | Direction.D || K5          | '5'
+            K2           | Direction.D || K6          | '6'
             K2           | Direction.R || K3          | '3'
-            K2           | Direction.L || K1          | '1'
-            K3           | Direction.U || null        | null
-            K3           | Direction.D || K6          | '6'
-            K3           | Direction.R || null        | null
+            K2           | Direction.L || null        | null
+            K3           | Direction.U || K1          | '1'
+            K3           | Direction.D || K7          | '7'
+            K3           | Direction.R || K4          | '4'
             K3           | Direction.L || K2          | '2'
-            K4           | Direction.U || K1          | '1'
-            K4           | Direction.D || K7          | '7'
-            K4           | Direction.R || K5          | '5'
-            K4           | Direction.L || null        | null
-            K5           | Direction.U || K2          | '2'
-            K5           | Direction.D || K8          | '8'
+            K4           | Direction.U || null        | null
+            K4           | Direction.D || K8          | '8'
+            K4           | Direction.R || null        | null
+            K4           | Direction.L || K3          | '3'
+            K5           | Direction.U || null        | null
+            K5           | Direction.D || null        | null
             K5           | Direction.R || K6          | '6'
-            K5           | Direction.L || K4          | '4'
-            K6           | Direction.U || K3          | '3'
-            K6           | Direction.D || K9          | '9'
-            K6           | Direction.R || null        | null
+            K5           | Direction.L || null        | null
+            K6           | Direction.U || K2          | '2'
+            K6           | Direction.D || KA          | 'A'
+            K6           | Direction.R || K7          | '7'
             K6           | Direction.L || K5          | '5'
             K7           | Direction.U || K3          | '3'
-            K7           | Direction.D || null        | null
+            K7           | Direction.D || KB          | 'B'
             K7           | Direction.R || K8          | '8'
-            K7           | Direction.L || null        | null
-            K8           | Direction.U || K5          | '5'
-            K8           | Direction.D || null        | null
+            K7           | Direction.L || K6          | '6'
+            K8           | Direction.U || K4          | '4'
+            K8           | Direction.D || KC          | 'C'
             K8           | Direction.R || K9          | '9'
             K8           | Direction.L || K7          | '7'
-            K9           | Direction.U || K6          | '6'
+            K9           | Direction.U || null        | null
             K9           | Direction.D || null        | null
             K9           | Direction.R || null        | null
             K9           | Direction.L || K8          | '8'
@@ -67,10 +67,10 @@ public class KeypadTraversalSpecification extends Specification {
             traversedKey == expectedOutput
         where:
             initialState | input   || expectedOutput
-            K5           | 'ULL'   || K1
-            K1           | 'RRDDD' || K9
-            K9           | 'LURDL' || K8
-            K8           | 'UUUUD' || K5
+            K5           | 'ULL'   || K5
+            K5           | 'RRDDD' || KD
+            KD           | 'LURDL' || KB
+            KB           | 'UUUUD' || K3
     }
 
 }
