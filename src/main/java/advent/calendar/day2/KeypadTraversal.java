@@ -14,7 +14,6 @@ import lombok.val;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 class KeypadTraversal {
@@ -46,11 +45,10 @@ class KeypadTraversal {
         val puzzleInputStream = KeypadTraversal.class.getResourceAsStream("input");
         val puzzleInput = CharStreams.readLines(new InputStreamReader(puzzleInputStream, Charset.forName("UTF-8")));
         val keypadTraversal = new KeypadTraversal(KeypadState.K5);
-        val sequence = puzzleInput.stream()
+        puzzleInput.stream()
             .map(keypadTraversal::traverse)
             .map(KeypadState::toString)
-            .collect(Collectors.joining());
-        System.out.println(sequence);
+            .forEach(System.out::print);
     }
 
 }

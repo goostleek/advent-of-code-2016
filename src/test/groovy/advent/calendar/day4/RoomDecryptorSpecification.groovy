@@ -15,11 +15,12 @@ public class RoomDecryptorSpecification extends Specification {
             decryptionResult.sectorId == sectorId
             decryptionResult.isValid == isValid
         where:
-            encryptedName                  || sectorId | isValid
-            'aaaaa-bbb-z-y-x-123[abxyz]'   || 123      | true
-            'a-b-c-d-e-f-g-h-987[abcde]'   || 987      | true
-            'not-a-real-room-404[oarel]'   || 404      | true
-            'totally-real-room-200[decoy]' || 200      | false
+            encryptedName                    || sectorId | isValid
+            'aaaaa-bbb-z-y-x-123[abxyz]'     || 123      | true
+            'a-b-c-d-e-f-g-h-987[abcde]'     || 987      | true
+            'not-a-real-room-404[oarel]'     || 404      | true
+            'totally-real-room-200[decoy]'   || 200      | false
+            'qzmt-zixmtkozy-ivhz-343[ijmdd]' || 343      | false
     }
 
 }

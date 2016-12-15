@@ -32,22 +32,42 @@ public class RoomDecryptor {
     public static class DecryptionResult {
         private int sectorId;
         private boolean isValid;
+        private String name;
     }
 
     /**
      *  https://regex101.com/r/esX4Pj/4
      */
     private static final Pattern PARSER_PATTERN
-        = Pattern.compile("(?<name>[^\\d]*)(?<sectorId>(?!-)\\d+(?=\\[))\\[(?<checksum>.+)\\]");
+        = Pattern.compile("(?<encryptedName>[^\\d]*)(?<sectorId>(?!-)\\d+(?=\\[))\\[(?<checksum>.+)\\]");
 
     public static DecryptionResult decrypt(@NonNull String encryptedInput) {
         val matcher = PARSER_PATTERN.matcher(encryptedInput);
+
         Preconditions.checkArgument(matcher.find() && matcher.groupCount() == 3,
                 encryptedInput + " is not a valid room encryption");
+
+        val sectorId = Integer.valueOf(matcher.group("sectorId"));
+        val encryptedName = matcher.group("encryptedName");
         return DecryptionResult.builder()
-            .sectorId(Integer.valueOf(matcher.group("sectorId")))
-            .isValid(verifyChecksum(matcher.group("name"), matcher.group("checksum")))
+            .sectorId(sectorId)
+            .isValid(verifyChecksum(encryptedName, matcher.group("checksum")))
+            .name(decryptName(encryptedName, sectorId))
             .build();
+    }
+
+    private static String decryptName(String encryptedName, int sectorId) {
+        return encryptedName.chars()
+            .mapToObj(i -> (char)i)
+            .map(a -> rotate(a , sectorId))
+            .map(String::valueOf)
+            .collect(joining())
+            .replaceAll(String.valueOf(rotate('-', sectorId)), " ");
+    }
+
+    static char rotate(char c, int distance) {
+        val aToZlettersCount = 26;
+        return (char) ((c + distance - 'a') % aToZlettersCount + 'a');
     }
 
     private static boolean verifyChecksum(String encryptedName, String expectedChecksum) {
@@ -75,11 +95,11 @@ public class RoomDecryptor {
         val puzzleInputStream = RoomDecryptor.class.getResourceAsStream("input");
         val puzzleInput = CharStreams.readLines(
                 new InputStreamReader(puzzleInputStream, Charset.forName("UTF-8")));
-        val sectorIdsSum = puzzleInput.stream()
+        puzzleInput.stream()
             .map(RoomDecryptor::decrypt)
             .filter(DecryptionResult::isValid)
-            .mapToInt(DecryptionResult::getSectorId)
-            .sum();
-        System.out.println(sectorIdsSum);
+            .filter(a -> a.getName().contains("north"))
+            .map(DecryptionResult::getSectorId)
+            .forEach(System.out::println);
     }
 }
