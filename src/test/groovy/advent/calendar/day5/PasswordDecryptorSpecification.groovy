@@ -8,7 +8,7 @@ public class PasswordDecryptorSpecification extends Specification {
 
     def "Should crack encrypted password"() {
         expect:
-            PasswordDecryptor.decrypt('abc') == '18f47a30'
+            PasswordDecryptor.decrypt('abc') == '05ace8e3'
     }
 
 }
