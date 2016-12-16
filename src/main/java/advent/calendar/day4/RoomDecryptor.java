@@ -85,8 +85,8 @@ public class RoomDecryptor {
     }
 
     private static Comparator<Entry<Character, Long>> compareByOccurenceThenAlphabetically() {
-        return Comparator.comparing((Entry<Character, Long> o) -> o.getValue()).reversed()
-                .thenComparing(o -> o.getKey());
+        return Comparator.comparing(Entry<Character, Long>::getValue).reversed()
+                .thenComparing(Entry<Character, Long>::getKey);
     }
 
     @SneakyThrows
