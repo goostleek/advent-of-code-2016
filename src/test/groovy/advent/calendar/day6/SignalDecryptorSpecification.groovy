@@ -12,7 +12,7 @@ public class SignalDecryptorSpecification extends Specification {
             def text = this.getClass().getResource('test-input').text
             def input = Splitter.on(CharMatcher.breakingWhitespace()).splitToList(text)
         expect:
-            SignalDecryptor.decrypt(input) == 'easter'
+            SignalDecryptor.decrypt(input) == 'advent'
     }
 
 }

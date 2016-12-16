@@ -29,7 +29,7 @@ public class SignalDecryptor {
                 .stream()
                 .map(l -> l.stream().collect(groupingBy(identity(), counting()))
                     .entrySet().stream()
-                    .max(comparing(Entry<String, Long>::getValue)).get())
+                    .min(comparing(Entry<String, Long>::getValue)).get())
                 .map(Entry::getKey)
                 .collect(Collectors.joining());
     }
