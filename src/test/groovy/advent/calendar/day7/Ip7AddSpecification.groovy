@@ -6,31 +6,32 @@ import spock.lang.Unroll
 public class Ip7AddSpecification extends Specification {
 
     @Unroll
-    def "Should #description detect ABBA sequence in '#input'"() {
+    def "Should #description detect ABA sequence in '#input'"() {
         when:
-            def hasAbbaSequence = Ip7Addr.hasAbbaSequence(input)
+            def abaSequences = Ip7Addr.getAbaSequences(input)
         then:
-            hasAbbaSequence == isAbbaSequence
+            !abaSequences.empty == isAbaSequence
         where:
-            input    || isAbbaSequence | description
-            'abba'   || true           | ''
-            'aaaa'   || false          | 'not'
-            'abcd'   || false          | 'not'
-            'ioxxoj' || true           | ''
+            input   || isAbaSequence  | description
+            'aba'   || true           | ''
+            'aaa'   || false          | 'not'
+            'aaba'  || true           | ''
+            'abaa'  || true           | ''
+            'ioxoj' || true           | ''
     }
 
     @Unroll
-    def "Should #description detect TLS support in '#input'"() {
+    def "Should #description detect SSL support in '#input'"() {
         given:
             def ip7Addr = new Ip7Addr(input)
         expect:
-            ip7Addr.supportsTls() == supportsTls
+            ip7Addr.supportsSsl() == supportsSsl
         where:
-            input                  || supportsTls | description
-            'abba[mnop]qrst'       || true        | ''
-            'abcd[bddb]xyyx'       || false       | 'not'
-            'aaaa[qwer]tyui'       || false       | 'not'
-            'ioxxoj[asdfgh]zxcvbn' || true        | ''
+            input           || supportsSsl | description
+            'zaba[baba]xyz' || true        | ''
+            'xyx[xyx]xyx'   || false       | 'not'
+            'aaa[kek]eke'   || true        | ''
+            'zazbz[bzb]cdb' || true        | ''
     }
 
 }

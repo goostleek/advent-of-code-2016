@@ -1,6 +1,7 @@
 package advent.calendar.day7;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Preconditions;
 import com.google.common.io.CharStreams;
 
 import lombok.Builder;
@@ -19,12 +20,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 
+import static java.util.stream.Collectors.toList;
+
 @Data
 @Builder
 @RequiredArgsConstructor
 public class Ip7Addr {
 
-    private static final int ABBA_SEQUENCE_LENGTH = 4;
+    private static final int ABA_SEQUENCE_LENGTH = 3;
 
     private static final Pattern HYPERNET_SEQUENCES_PATTERN =
             Pattern.compile("(?!\\[)[a-z]+(?=\\])");
@@ -40,9 +43,21 @@ public class Ip7Addr {
         hypernetSequences = matchSequences(HYPERNET_SEQUENCES_PATTERN.matcher(input));
     }
 
-    public boolean supportsTls() {
-        return !hypernetSequences.stream().anyMatch(Ip7Addr::hasAbbaSequence)
-                && supernetSequences.stream().anyMatch(Ip7Addr::hasAbbaSequence);
+    public boolean supportsSsl() {
+        return supernetSequences.stream()
+            .map(Ip7Addr::getAbaSequences)
+            .flatMap(List::stream)
+            .map(Ip7Addr::toBab)
+            .anyMatch(this::hypernetSequenceContains);
+    }
+
+    private static String toBab(@NonNull String s) {
+        Preconditions.checkArgument(s.length() == 3);
+        return  s.substring(1) + s.charAt(1);
+    }
+
+    private boolean hypernetSequenceContains(String s) {
+        return hypernetSequences.stream().anyMatch(h -> h.contains(s));
     }
 
     private ArrayList<String> matchSequences(final Matcher matcher) {
@@ -54,16 +69,15 @@ public class Ip7Addr {
     }
 
     @VisibleForTesting
-    static boolean hasAbbaSequence(@NonNull String input) {
-        return IntStream.rangeClosed(0, input.length() - ABBA_SEQUENCE_LENGTH)
-            .mapToObj(i -> input.substring(i, i + ABBA_SEQUENCE_LENGTH))
-            .anyMatch(Ip7Addr::isAbbaSequence);
+    static List<String> getAbaSequences(@NonNull String input) {
+        return IntStream.rangeClosed(0, input.length() - ABA_SEQUENCE_LENGTH)
+                .mapToObj(i -> input.substring(i, i + ABA_SEQUENCE_LENGTH))
+                .filter(Ip7Addr::isAbaSequence)
+                .collect(toList());
     }
 
-    private static boolean isAbbaSequence(String input) {
-        return input.charAt(0) != input.charAt(1)
-                    && input.charAt(0) == input.charAt(3)
-                    && input.charAt(1) == input.charAt(2);
+    private static boolean isAbaSequence(String input) {
+        return input.charAt(0) != input.charAt(1) && input.charAt(0) == input.charAt(2);
     }
 
     @SneakyThrows
@@ -73,7 +87,7 @@ public class Ip7Addr {
         val puzzleInput = CharStreams.readLines(new InputStreamReader(puzzleInputStream, Charset.forName("UTF-8")));
         val tlsSupportedIpCount = puzzleInput.stream()
             .map(Ip7Addr::new)
-            .filter(Ip7Addr::supportsTls)
+            .filter(Ip7Addr::supportsSsl)
             .count();
         System.out.println(tlsSupportedIpCount);
     }
